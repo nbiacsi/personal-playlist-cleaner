@@ -6,24 +6,29 @@
 
 import spotipy
 import spotipy.util as util
-
-import csv
 from dotenv import load_dotenv
-import json
+
 import os
 
 
 load_dotenv()
 
 
-def remove_songs(sp: spotipy.Spotify, liked_songs: list[str], playlist_songs: list[str], playlist_id: str) -> None:
+def remove_songs(
+    sp: spotipy.Spotify,
+    liked_songs: list[str],
+    playlist_songs: list[str],
+    playlist_id: str,
+) -> None:
     songs: list[str] = []
     for song in playlist_songs:
         if song not in liked_songs:
             songs.append(song)
-    
+
     if songs != None:
-        sp.playlist_remove_all_occurrences_of_items(playlist_id, songs, snapshot_id=None)
+        sp.playlist_remove_all_occurrences_of_items(
+            playlist_id, songs, snapshot_id=None
+        )
 
 
 def get_hypesongs(sp: spotipy.Spotify, playlist_id: str) -> list[str]:
@@ -44,7 +49,9 @@ def get_hypesongs(sp: spotipy.Spotify, playlist_id: str) -> list[str]:
         i += 1
 
 
-def get_likedsongs_response(sp: spotipy.Spotify, liked_songs_count: int) -> dict[str, str]:
+def get_likedsongs_response(
+    sp: spotipy.Spotify, liked_songs_count: int
+) -> dict[str, str]:
     response: dict[str, str] = {}
     i: int = 0
     limit: int = 50
@@ -95,7 +102,7 @@ def authorize() -> spotipy.Spotify:
         scope,
         client_id=client_id,
         client_secret=client_secret,
-        redirect_uri=redirect_uri
+        redirect_uri=redirect_uri,
     )
 
     return spotipy.Spotify(auth=token)
@@ -109,5 +116,5 @@ def main() -> None:
     remove_songs(sp, liked_songs, hype_songs, playlist_id)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
