@@ -1,3 +1,5 @@
+#!/home/sloth/.local/bin uv run
+
 """
 Author: Sloth
 Date: 9/16/2024
